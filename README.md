@@ -9,6 +9,9 @@ https://unduck.jnz.ski?q=%s
 ## How is it that much faster?
 
 Forked from https://github.com/t3dotgg/unduck
+With the following changes:
+- Redirect to homepage when the query is empty (https://github.com/ronanru/unduck)
+- Darkmode (https://github.com/luinbytes/unduck)
 
 DuckDuckGo does their redirects server side. Their DNS is...not always great. Result is that it often takes ages.
 
