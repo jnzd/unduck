@@ -335,6 +335,14 @@ textarea {
   border: 1px solid var(--input-border); /* Use theme-aware border color */
   word-break: break-word; /* Break long words */
   overflow-x: hidden; /* Hide horizontal overflow */
+  transition: max-height 0.3s ease;
+}
+
+#engine-list.collapsed {
+  max-height: 0;
+  overflow-y: hidden;
+  padding: 0;
+  border: none;
 }
 
 /* Style the scrollbar */
@@ -379,6 +387,15 @@ textarea {
 
 [data-theme="dark"] #engine-list li:hover {
   background-color: #333333; /* Darker hover color for dark mode */
+}
+
+#collapse-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-color);
+  font-size: 0.8em;
+  margin-top: 5px;
 }
 
 .bang-text {

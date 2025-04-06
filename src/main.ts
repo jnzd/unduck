@@ -47,6 +47,7 @@ function noSearchDefaultPageRender() {
 
   const currentDefault = localStorage.getItem("default-bang") ?? "g";
   const currentDefaultEngine = bangs.find(b => b.t === currentDefault)?.s ?? "Google";
+  const isCollapsedInitial = localStorage.getItem("engine-list-collapsed") === "true";
 
   app.innerHTML = `
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
@@ -70,10 +71,10 @@ function noSearchDefaultPageRender() {
         <div class="center-container">
           <div class="engine-container">
             <div class="search-container">
-              <label for="engine-search">Default Engine:</label>
-              <input type="text" id="engine-search" placeholder="Search engines..." />
-              <div id="current-engine">Current: ${currentDefaultEngine}</div>
-              <ul id="engine-list"></ul>
+              <div id="current-engine">Current Search Engine: ${currentDefaultEngine}</div>
+              <input type="text" id="engine-search" placeholder="Change Default Search Engine" />
+              <button id="collapse-button">${isCollapsedInitial ? "Expand results" : "Collapse results"}</button>
+              <ul id="engine-list" class="${isCollapsedInitial ? "collapsed" : ""}"></ul>
             </div>
           </div>
         </div>
@@ -106,17 +107,31 @@ function noSearchDefaultPageRender() {
 
   const searchInput = app.querySelector<HTMLInputElement>("#engine-search")!;
   const engineList = app.querySelector<HTMLUListElement>("#engine-list")!;
+  const collapseButton = app.querySelector<HTMLButtonElement>("#collapse-button")!;
 
   let timeoutId: number;
+  let isCollapsed = isCollapsedInitial;
+
+  const updateCollapseState = (collapsed: boolean) => {
+    isCollapsed = collapsed;
+    engineList.classList.toggle("collapsed", collapsed);
+    collapseButton.textContent = collapsed ? "Expand results" : "Collapse results";
+    localStorage.setItem("engine-list-collapsed", collapsed.toString());
+  };
+
+  collapseButton.addEventListener("click", () => {
+    updateCollapseState(!isCollapsed);
+  });
 
   searchInput.addEventListener("input", () => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => {
       const searchTerm = searchInput.value.toLowerCase();
       let filteredEngines = bangs.filter(bang =>
-        bang.s.toLowerCase().includes(searchTerm)
-        || bang.d.toLowerCase().includes(searchTerm)
+        bang.t.toLowerCase().includes(searchTerm)
         || (searchTerm[0] == "!" && bang.t.toLowerCase().includes(searchTerm.slice(1)))
+        || bang.s.toLowerCase().includes(searchTerm)
+        || bang.d.toLowerCase().includes(searchTerm)
       );
 
       // Sort by length of 't' value
@@ -132,10 +147,21 @@ function noSearchDefaultPageRender() {
           // Update current engine display
           const currentEngineDisplay = app.querySelector<HTMLDivElement>("#current-engine")!;
           currentEngineDisplay.textContent = `Current search engine: ${engine.s}`;
+          updateCollapseState(true);
         });
         engineList.appendChild(listItem);
       });
+      updateCollapseState(false);
     }, 200); // Delay of 200ms
+  });
+
+  searchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      updateCollapseState(false);
+    } else if (event.key === "Escape") {
+      updateCollapseState(true);
+      searchInput.blur(); // Remove focus from the input
+    }
   });
 
   function showSavedMessage(selectedEngine: string) {
