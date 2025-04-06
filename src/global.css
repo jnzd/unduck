@@ -192,11 +192,13 @@ textarea {
 
 .engine-selector {
   padding: 8px 12px;
-  border: 1px solid #ddd;
+  border: 1px solid var(--input-border);
   border-radius: 4px;
-  background: #f5f5f5;
+  background: var(--input-bg);
+  color: var(--text-color);
   font-size: 16px;
   min-width: 250px;
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
 }
 
 .submit-button {
