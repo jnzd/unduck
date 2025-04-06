@@ -238,8 +238,8 @@ textarea {
   to { opacity: 0; }
 }
 
-/* Top-right positioning for the engine selector */
-.top-right-container {
+/* Center positioning for the engine selector */
+.center-container {
   position: static; /* Remove absolute positioning */
   display: flex;
   flex-direction: column; /* Stack elements vertically */

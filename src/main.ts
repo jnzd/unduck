@@ -66,7 +66,7 @@ function noSearchDefaultPageRender() {
             <img src="/clipboard.svg" alt="Copy" />
           </button>
         </div>
-        <div class="top-right-container">
+        <div class="center-container">
           <div class="engine-container">
             <div class="dropdown-container">
               <div class="engine-text">
