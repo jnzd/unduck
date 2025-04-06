@@ -227,7 +227,7 @@ textarea {
   background-color: var(--success-bg); /* Use theme-aware background color */
   color: var(--success-text); /* Use theme-aware text color */
   border-radius: 4px;
-  position: static; /* Remove absolute positioning */
+  position: static;
   transform: none; /* Remove centering transform */
   animation: fadeOut 2s forwards;
   animation-delay: 1s;
