@@ -301,3 +301,91 @@ textarea {
   width: 24px;
   height: 24px;
 }
+
+/* Add search container styles */
+.search-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+#engine-search {
+  padding: 8px 12px;
+  border: 1px solid var(--input-border);
+  border-radius: 4px;
+  width: 300px;
+  background: var(--input-bg);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+
+#current-engine {
+  margin-top: 5px;
+  font-size: 0.9em;
+  color: var(--footer-text-color);
+}
+
+#engine-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 5px;
+  width: 300px; /* Increased width */
+  max-height: 150px;
+  overflow-y: auto;
+  border: 1px solid var(--input-border); /* Use theme-aware border color */
+  word-break: break-word; /* Break long words */
+  overflow-x: hidden; /* Hide horizontal overflow */
+}
+
+/* Style the scrollbar */
+#engine-list::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+#engine-list::-webkit-scrollbar-track {
+  background: var(--bg-color); /* Use theme-aware background color */
+}
+
+/* Handle */
+#engine-list::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 4px;
+}
+
+/* Dark mode scrollbar thumb */
+[data-theme="dark"] #engine-list::-webkit-scrollbar-thumb {
+  background: #555;
+}
+
+/* Handle on hover */
+#engine-list::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Dark mode scrollbar thumb on hover */
+[data-theme="dark"] #engine-list::-webkit-scrollbar-thumb:hover {
+  background: #777;
+}
+
+#engine-list li {
+  padding: 5px 10px;
+  cursor: pointer;
+}
+
+#engine-list li:hover {
+  background-color: #f0f0f0;
+}
+
+[data-theme="dark"] #engine-list li:hover {
+  background-color: #333333; /* Darker hover color for dark mode */
+}
+
+.bang-text {
+  color: #888; /* Lighter color for the bang text */
+  font-size: 0.8em;
+}
+
+[data-theme="dark"] .bang-text {
+  color: #bbb; /* Lighter color for the bang text in dark mode */
+}

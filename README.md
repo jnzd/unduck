@@ -14,9 +14,7 @@ With the following changes:
 - Darkmode (https://github.com/luinbytes/unduck)
 - OpenSearch Metadata (https://github.com/samiindeed/unduck)
 - Reverse bang detection, i.e. detect both `!g` and `g!` (https://github.com/mujtabachang/unduck/tree/fix-reverse-bang)
-- Default search engine selector (https://github.com/pfaj/unduck/tree/engine-select)
-    - respects theme selection
-    - moved to center of the screen
+- Default search engine search menu
 
 DuckDuckGo does their redirects server side. Their DNS is...not always great. Result is that it often takes ages.
 

@@ -46,6 +46,7 @@ function noSearchDefaultPageRender() {
   const app = document.querySelector<HTMLDivElement>("#app")!;
 
   const currentDefault = localStorage.getItem("default-bang") ?? "g";
+  const currentDefaultEngine = bangs.find(b => b.t === currentDefault)?.s ?? "Google";
 
   app.innerHTML = `
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
@@ -68,16 +69,11 @@ function noSearchDefaultPageRender() {
         </div>
         <div class="center-container">
           <div class="engine-container">
-            <div class="dropdown-container">
-              <div class="engine-text">
-                Default Engine:
-              </div>
-              <select class="engine-selector" class="engine-selector">
-                <!-- Options will be populated by JavaScript -->
-              </select>
-              <button class="submit-button">
-                Save
-              </button>
+            <div class="search-container">
+              <label for="engine-search">Default Engine:</label>
+              <input type="text" id="engine-search" placeholder="Search engines..." />
+              <div id="current-engine">Current: ${currentDefaultEngine}</div>
+              <ul id="engine-list"></ul>
             </div>
           </div>
         </div>
@@ -108,17 +104,39 @@ function noSearchDefaultPageRender() {
 
   themeToggle.addEventListener("click", toggleTheme);
 
-  // Deafault Engine Selector
-  const engineSelector = app.querySelector<HTMLSelectElement>(".engine-selector")!;
-  populateEngineDropdown(engineSelector, currentDefault);
+  const searchInput = app.querySelector<HTMLInputElement>("#engine-search")!;
+  const engineList = app.querySelector<HTMLUListElement>("#engine-list")!;
 
-  const submitButton = app.querySelector<HTMLButtonElement>(".submit-button")!;
-  submitButton.addEventListener("click", () => {
-    const selectedEngine = engineSelector.value;
-    localStorage.setItem("default-bang", selectedEngine);
-    showSavedMessage(selectedEngine);
+  let timeoutId: number;
+
+  searchInput.addEventListener("input", () => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => {
+      const searchTerm = searchInput.value.toLowerCase();
+      let filteredEngines = bangs.filter(bang =>
+        bang.s.toLowerCase().includes(searchTerm)
+        || bang.d.toLowerCase().includes(searchTerm)
+        || (searchTerm[0] == "!" && bang.t.toLowerCase().includes(searchTerm.slice(1)))
+      );
+
+      // Sort by length of 't' value
+      filteredEngines.sort((a, b) => a.t.length - b.t.length);
+
+      engineList.innerHTML = "";
+      filteredEngines.slice(0, 100).forEach(engine => {
+        const listItem = document.createElement("li");
+        listItem.innerHTML = `${engine.s} <span class="bang-text">!${engine.t}</span>`;
+        listItem.addEventListener("click", () => {
+          localStorage.setItem("default-bang", engine.t);
+          showSavedMessage(engine.t);
+          // Update current engine display
+          const currentEngineDisplay = app.querySelector<HTMLDivElement>("#current-engine")!;
+          currentEngineDisplay.textContent = `Current search engine: ${engine.s}`;
+        });
+        engineList.appendChild(listItem);
+      });
+    }, 200); // Delay of 200ms
   });
-
 
   function showSavedMessage(selectedEngine: string) {
     const existingMessage = app.querySelector(".saved-message");
@@ -131,35 +149,6 @@ function noSearchDefaultPageRender() {
     
     setTimeout(() => message.remove(), 2000);
   }
-}
-
-function populateEngineDropdown(selectElement: HTMLSelectElement, currentDefault: string) {
-  const commonEngines = [
-    { t: "g", d: "Google"},
-    { t: "ddg", d: "DuckDuckGo"},
-    { t: "b", d: "Bing"},
-    { t: "brave", d: "Brave"},
-    { t: "y", d: "Yahoo"},
-    { t: "yt", d: "YouTube"},
-    { t: "w", d: "Wikipedia"},
-    { t: "gh", d: "GitHub"},
-    { t: "spen", d: "StartPage (English)"},
-    { t: "a", d: "Amazon"},
-    { t: "r", d: "Reddit"}
-  ];
-
-  const commonGroup = document.createElement("optgroup");
-  commonGroup.label = "Engines";
-  
-  commonEngines.forEach(engine => {
-    const option = document.createElement("option");
-    option.value = engine.t;
-    option.textContent = `${engine.d} (!${engine.t})`;
-    option.selected = engine.t === currentDefault;
-    commonGroup.appendChild(option);
-  });
-  
-  selectElement.appendChild(commonGroup);
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
