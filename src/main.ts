@@ -116,17 +116,17 @@ function noSearchDefaultPageRender() {
   submitButton.addEventListener("click", () => {
     const selectedEngine = engineSelector.value;
     localStorage.setItem("default-bang", selectedEngine);
-    showSavedMessage();
+    showSavedMessage(selectedEngine);
   });
 
 
-  function showSavedMessage() {
+  function showSavedMessage(selectedEngine: string) {
     const existingMessage = app.querySelector(".saved-message");
     if (existingMessage) existingMessage.remove();
     
     const message = document.createElement("div");
     message.className = "saved-message";
-    message.textContent = "Default engine saved!";
+    message.textContent = "Set default engine to " + bangs.find((b) => b.t === selectedEngine)?.s;
     app.querySelector(".engine-container")!.appendChild(message);
     
     setTimeout(() => message.remove(), 2000);
