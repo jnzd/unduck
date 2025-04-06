@@ -222,15 +222,13 @@ textarea {
 }
 
 .saved-message {
-  margin-top: 40px;
+  margin-top: 8px; /* Adjust spacing to place it below the engine selector */
   padding: 8px 8px;
   background-color: var(--success-bg); /* Use theme-aware background color */
   color: var(--success-text); /* Use theme-aware text color */
   border-radius: 4px;
-  position: absolute;
-  top: 50%; 
-  left: 50%;
-  transform: translate(-50%, -50%);
+  position: static; /* Remove absolute positioning */
+  transform: none; /* Remove centering transform */
   animation: fadeOut 2s forwards;
   animation-delay: 1s;
 }
