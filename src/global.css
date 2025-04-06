@@ -39,6 +39,8 @@
   --button-active-bg: #e5e5e5;
   --footer-text-color: #666;
   --footer-link-hover: #333;
+  --success-bg: #d4edda;
+  --success-text: #28a745;
 }
 
 [data-theme="dark"] {
@@ -53,6 +55,8 @@
   --button-active-bg: #424242;
   --footer-text-color: #bbbbbb;
   --footer-link-hover: #ffffff;
+  --success-bg: #1e4620;
+  --success-text: #a5d6a7;
 }
 
 * {
@@ -203,22 +207,24 @@ textarea {
 
 .submit-button {
   padding: 8px 16px;
-  color: black;
+  color: var(--text-color); /* Use theme-aware text color */
   border: none;
   border-radius: 4px;
   cursor: pointer;
   font-size: 16px;
+  transition: background-color 0.3s ease, color 0.3s ease;
 }
 
 .submit-button:hover {
-  background-color: #f0f0f0;
+  background-color: var(--button-hover-bg); /* Use theme-aware hover background */
+  color: var(--text-color); /* Ensure text color remains theme-aware */
 }
 
 .saved-message {
   margin-top: 40px;
   padding: 8px 8px;
-  background-color: #d4edda;
-  color: #28a745;
+  background-color: var(--success-bg); /* Use theme-aware background color */
+  color: var(--success-text); /* Use theme-aware text color */
   border-radius: 4px;
   position: absolute;
   top: 50%; 
