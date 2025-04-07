@@ -148,6 +148,8 @@ textarea {
   background-color: var(--input-bg); /* Add background color */
   border: 1px solid var(--input-border); /* Add border */
   border-radius: 0.5rem; /* Match input border radius */
+  display: flex; /* Use flexbox */
+  align-items: center; /* Vertically align items */
 }
 
 .search-input {
@@ -421,4 +423,24 @@ textarea {
 .bang-text {
   color: var(--engine-list-bang-text);
   font-size: 0.8em;
+}
+
+.search-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem; /* Adjust padding as needed */
+  margin-left: auto; /* Push button to the right edge */
+}
+
+.search-button img {
+  width: 16px; /* Adjust as needed */
+  height: 16px; /* Adjust as needed */
+  -webkit-filter: invert(0%); /* Default: no inversion */
+  filter: invert(0%);
+}
+
+[data-theme="dark"] .search-button img {
+  -webkit-filter: invert(90%); /* Invert in dark mode */
+  filter: invert(90%);
 }

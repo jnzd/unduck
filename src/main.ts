@@ -75,6 +75,9 @@ function noSearchDefaultPageRender() {
             class="search-input"
             placeholder="Search with Unduck..."
           />
+          <button class="search-button" aria-label="Start search">
+            <img src="/search-icon.svg" alt="Search" />
+          </button>
         </div>
         <div class="center-container">
           <div class="engine-container">
@@ -117,6 +120,14 @@ function noSearchDefaultPageRender() {
   const engineList = app.querySelector<HTMLUListElement>("#engine-list")!;
   const collapseButton = app.querySelector<HTMLButtonElement>("#collapse-button")!;
   const mainSearchInput = app.querySelector<HTMLInputElement>("#main-search")!;
+  const searchButton = app.querySelector<HTMLButtonElement>(".search-button")!;
+
+  searchButton.addEventListener("click", () => {
+    const searchTerm = mainSearchInput.value.trim();
+    if (searchTerm) {
+      window.location.href = `/?q=${encodeURIComponent(searchTerm)}`;
+    }
+  });
 
   let timeoutId: number;
   let isCollapsed = isCollapsedInitial;
