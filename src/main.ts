@@ -73,16 +73,15 @@ function noSearchDefaultPageRender() {
             type="search"
             id="main-search"
             class="search-input"
-            placeholder="Search with Unduck..."
+            placeholder="Search ${currentDefaultEngine} (!${currentDefault}) ..."
           />
           <button class="search-button" aria-label="Start search">
             <img src="/search-icon.svg" alt="Search" />
           </button>
         </div>
-        <div class="center-container">
+        <div class="search-engine-selector-container">
           <div class="engine-container">
             <div class="search-container">
-              <div id="current-engine">Current Search Engine: ${currentDefaultEngine}</div>
               <input type="text" id="engine-search" placeholder="Change Default Search Engine" />
               <button id="collapse-button">${isCollapsedInitial ? "Expand results" : "Collapse results"}</button>
               <ul id="engine-list" class="${isCollapsedInitial ? "collapsed" : ""}"></ul>
@@ -193,14 +192,24 @@ function noSearchDefaultPageRender() {
     }
   });
 
+  function updateSearchPlaceholder(engine: string, bang: string) {
+    mainSearchInput.placeholder = `Search ${engine} (!${bang}) ...`;
+  }
+
   function showSavedMessage(selectedEngine: string) {
     const existingMessage = app.querySelector(".saved-message");
     if (existingMessage) existingMessage.remove();
     
     const message = document.createElement("div");
     message.className = "saved-message";
-    message.textContent = "Set default engine to " + bangs.find((b) => b.t === selectedEngine)?.s;
+    const selectedBang = bangs.find((b) => b.t === selectedEngine);
+    message.textContent = "Set default engine to " + selectedBang?.s;
     app.querySelector(".engine-container")!.appendChild(message);
+
+    // Update the search bar placeholder dynamically
+    if (selectedBang) {
+      updateSearchPlaceholder(selectedBang.s, selectedBang.t);
+    }
     
     setTimeout(() => message.remove(), 2000);
   }
