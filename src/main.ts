@@ -36,7 +36,7 @@ function updateThemeToggleIcon(theme: 'light' | 'dark') {
   const iconSrc = theme === 'light' ? '/moon.svg' : '/sun.svg';
   const iconAlt = theme === 'light' ? 'Switch to dark mode' : 'Switch to light mode';
   
-  themeToggle.innerHTML = `<img src="${iconSrc}" alt="${iconAlt}" />`;
+  themeToggle.innerHTML = /*html*/ `<img src="${iconSrc}" alt="${iconAlt}" />`;
 }
 
 function noSearchDefaultPageRender() {
@@ -49,7 +49,7 @@ function noSearchDefaultPageRender() {
   const currentDefaultEngine = bangs.find(b => b.t === currentDefault)?.s ?? "Google";
   const isCollapsedInitial = localStorage.getItem("engine-list-collapsed") === "true";
 
-  app.innerHTML = `
+  app.innerHTML = /*html*/ `
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
       <button class="theme-toggle" aria-label="Toggle dark mode">
         <img src="${initialTheme === 'light' ? '/moon.svg' : '/sun.svg'}" alt="${initialTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}" />
@@ -140,7 +140,7 @@ function noSearchDefaultPageRender() {
       engineList.innerHTML = "";
       filteredEngines.slice(0, 100).forEach(engine => {
         const listItem = document.createElement("li");
-        listItem.innerHTML = `${engine.s} <span class="bang-text">!${engine.t}</span>`;
+        listItem.innerHTML = /*html*/ `${engine.s} <span class="bang-text">!${engine.t}</span>`;
         listItem.addEventListener("click", () => {
           localStorage.setItem("default-bang", engine.t);
           showSavedMessage(engine.t);
