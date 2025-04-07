@@ -68,6 +68,14 @@ function noSearchDefaultPageRender() {
             <img src="/clipboard.svg" alt="Copy" />
           </button>
         </div>
+        <div class="search-bar-container">
+          <input
+            type="search"
+            id="main-search"
+            class="search-input"
+            placeholder="Search with Unduck..."
+          />
+        </div>
         <div class="center-container">
           <div class="engine-container">
             <div class="search-container">
@@ -108,6 +116,7 @@ function noSearchDefaultPageRender() {
   const searchInput = app.querySelector<HTMLInputElement>("#engine-search")!;
   const engineList = app.querySelector<HTMLUListElement>("#engine-list")!;
   const collapseButton = app.querySelector<HTMLButtonElement>("#collapse-button")!;
+  const mainSearchInput = app.querySelector<HTMLInputElement>("#main-search")!;
 
   let timeoutId: number;
   let isCollapsed = isCollapsedInitial;
@@ -138,7 +147,7 @@ function noSearchDefaultPageRender() {
       filteredEngines.sort((a, b) => a.t.length - b.t.length);
 
       engineList.innerHTML = "";
-      filteredEngines.slice(0, 100).forEach(engine => {
+      filteredEngines.slice(0, 250).forEach(engine => {
         const listItem = document.createElement("li");
         listItem.innerHTML = /*html*/ `${engine.s} <span class="bang-text">!${engine.t}</span>`;
         listItem.addEventListener("click", () => {
@@ -161,6 +170,15 @@ function noSearchDefaultPageRender() {
     } else if (event.key === "Escape") {
       updateCollapseState(true);
       searchInput.blur(); // Remove focus from the input
+    }
+  });
+
+  mainSearchInput.addEventListener("keydown", (event) => {
+    if (event.key === "Enter") {
+      const searchTerm = mainSearchInput.value.trim();
+      if (searchTerm) {
+        window.location.href = `/?q=${encodeURIComponent(searchTerm)}`;
+      }
     }
   });
 

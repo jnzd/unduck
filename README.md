@@ -15,6 +15,7 @@ With the following changes:
 - OpenSearch Metadata (https://github.com/samiindeed/unduck)
 - Reverse bang detection, i.e. detect both `!g` and `g!` (https://github.com/mujtabachang/unduck/tree/fix-reverse-bang)
 - Default search engine search menu
+- Added a search bar to test the search engine
 
 DuckDuckGo does their redirects server side. Their DNS is...not always great. Result is that it often takes ages.
 

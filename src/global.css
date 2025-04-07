@@ -48,6 +48,7 @@
   --engine-list-bang-text: #888;
   --engine-list-scrollbar: #888;
   --engine-list-scrollbar-hover: #555;
+  --theme-toggle-box-shadow: #0000001c;
 }
 
 [data-theme="dark"] {
@@ -68,6 +69,7 @@
   --engine-list-bang-text: #bbb;
   --engine-list-scrollbar: #555;
   --engine-list-scrollbar-hover: #777;
+  --theme-toggle-box-shadow: #00000044;
 }
 
 * {
@@ -128,22 +130,48 @@ textarea {
   font: inherit;
 }
 
-/* Add these new styles */
 .url-container {
   display: flex;
   align-items: center;
   gap: 8px;
   margin-top: 16px;
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 1rem;
 }
 
-/* Add this new style */
+.search-bar-container {
+  width: 100%;
+  max-width: 600px; /* Match the URL input width */
+  margin: 1rem auto; /* Add spacing above and below */
+  padding: 0.5rem;
+  background-color: var(--input-bg); /* Add background color */
+  border: 1px solid var(--input-border); /* Add border */
+  border-radius: 0.5rem; /* Match input border radius */
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.5rem 0.5rem;
+  font-size: 1rem;
+  border: 1px solid var(--color-border);
+  border-radius: 0.5rem;
+  background-color: var(--color-background-input);
+  color: var(--color-text);
+  transition: border-color 0.2s ease-in-out;
+}
+
+.search-input:focus {
+  border-color: var(--color-accent);
+  outline: none;
+}
+
 .content-container {
   max-width: 36rem;
   text-align: center;
   padding: 0 8px;
 }
 
-/* Update url-input width to be 100% since container will control max width */
 .url-input {
   padding: 8px 12px;
   border: 1px solid var(--input-border);
@@ -293,15 +321,10 @@ textarea {
   height: 40px;
   border-radius: 50%;
   background-color: var(--bg-color);
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 5px var(--theme-toggle-box-shadow);
   cursor: pointer;
   transition: background-color 0.3s ease, box-shadow 0.3s ease;
   z-index: 100;
-}
-
-[data-theme="dark"] .theme-toggle {
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-  background-color: #1e1e1e;
 }
 
 .theme-toggle:hover {
