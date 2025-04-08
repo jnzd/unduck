@@ -79,12 +79,11 @@ function noSearchDefaultPageRender() {
             <img src="/search-icon.svg" alt="Search" />
           </button>
         </div>
-        <div class="search-engine-selector-container">
+        <div class="search-engine-selector-box">
           <div class="engine-container">
             <div class="search-container">
               <input type="text" id="engine-search" placeholder="Change Default Search Engine" />
-              <button id="collapse-button">${isCollapsedInitial ? "Expand results" : "Collapse results"}</button>
-              <ul id="engine-list" class="${isCollapsedInitial ? "collapsed" : ""}"></ul>
+              <ul id="engine-list"></ul>
             </div>
           </div>
         </div>
@@ -117,7 +116,6 @@ function noSearchDefaultPageRender() {
 
   const searchInput = app.querySelector<HTMLInputElement>("#engine-search")!;
   const engineList = app.querySelector<HTMLUListElement>("#engine-list")!;
-  const collapseButton = app.querySelector<HTMLButtonElement>("#collapse-button")!;
   const mainSearchInput = app.querySelector<HTMLInputElement>("#main-search")!;
   const searchButton = app.querySelector<HTMLButtonElement>(".search-button")!;
 
@@ -129,18 +127,6 @@ function noSearchDefaultPageRender() {
   });
 
   let timeoutId: number;
-  let isCollapsed = isCollapsedInitial;
-
-  const updateCollapseState = (collapsed: boolean) => {
-    isCollapsed = collapsed;
-    engineList.classList.toggle("collapsed", collapsed);
-    collapseButton.textContent = collapsed ? "Expand results" : "Collapse results";
-    localStorage.setItem("engine-list-collapsed", collapsed.toString());
-  };
-
-  collapseButton.addEventListener("click", () => {
-    updateCollapseState(!isCollapsed);
-  });
 
   searchInput.addEventListener("input", () => {
     clearTimeout(timeoutId);
@@ -166,11 +152,9 @@ function noSearchDefaultPageRender() {
           // Update current engine display
           const currentEngineDisplay = app.querySelector<HTMLDivElement>("#current-engine")!;
           currentEngineDisplay.textContent = `Current search engine: ${engine.s}`;
-          updateCollapseState(true);
         });
         engineList.appendChild(listItem);
       });
-      updateCollapseState(false);
     }, 200); // Delay of 200ms
   });
 

@@ -1,5 +1,15 @@
 /* @import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap"); */
 
+.search-engine-selector-box {
+  margin: 1rem auto;
+  max-width: 600px;
+  width: 100%;
+  box-shadow: 0 4px 6px var(--theme-toggle-box-shadow);
+  border-radius: 8px;
+  padding: 1rem;
+  color: var(--text-color);
+  background-color: var(--input-bg);
+}
 /* Font fallback that closely matches Inter metrics */
 @font-face {
   font-family: "Inter Fallback";
