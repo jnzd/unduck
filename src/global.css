@@ -245,6 +245,22 @@ textarea {
   align-content: center;
 }
 
+.toggle-button{
+  color: var(--text-color);
+  padding: 1rem;
+  color: var(--text-color);
+  border-radius: 4px;
+  background: var(--input-bg)
+}
+
+.toggle-button:active{
+  background-color: var(--button-active-bg);
+}
+
+.toggle-button:hover{
+  background-color: var(--button-hover-bg);
+}
+
 .engine-selector {
   padding: 8px 12px;
   border: 1px solid var(--input-border);

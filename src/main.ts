@@ -47,8 +47,7 @@ function noSearchDefaultPageRender() {
 
   const currentDefault = localStorage.getItem("default-bang") ?? "g";
   const currentDefaultEngine = bangs.find(b => b.t === currentDefault)?.s ?? "Google";
-  const isCollapsedInitial = localStorage.getItem("engine-list-collapsed") === "true";
-
+  
   app.innerHTML = /*html*/ `
     <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100vh;">
       <button class="theme-toggle" aria-label="Toggle dark mode">
@@ -79,6 +78,7 @@ function noSearchDefaultPageRender() {
             <img src="/search-icon.svg" alt="Search" />
           </button>
         </div>
+        <button id="toggle-engine-menu" class="toggle-button">Change Default Search Engine</button>
         <div class="search-engine-selector-box">
           <div class="engine-container">
             <div class="search-container">
@@ -197,6 +197,19 @@ function noSearchDefaultPageRender() {
     
     setTimeout(() => message.remove(), 2000);
   }
+
+  const toggleButton = app.querySelector<HTMLButtonElement>("#toggle-engine-menu")!;
+  const engineSelectorBox = app.querySelector<HTMLDivElement>(".search-engine-selector-box")!;
+
+  toggleButton.addEventListener("click", () => {
+    const isHidden = engineSelectorBox.style.display === "none";
+    engineSelectorBox.style.display = isHidden ? "block" : "none";
+    toggleButton.textContent = isHidden ? "Hide Search Engine Menu" : "Change Default Search Engine";
+  });
+
+  // Initialize the menu as visible
+  engineSelectorBox.style.display = "block";
+  toggleButton.textContent = "Hide Search Engine Menu";
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
