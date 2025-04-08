@@ -198,9 +198,9 @@ function noSearchDefaultPageRender() {
     toggleButton.textContent = isHidden ? "Hide Search Engine Menu" : "Change Default Search Engine";
   });
 
-  // Initialize the menu as visible
-  engineSelectorBox.style.display = "block";
-  toggleButton.textContent = "Hide Search Engine Menu";
+  // Initialize the menu as hidden
+  engineSelectorBox.style.display = "none";
+  toggleButton.textContent = "Change Default Search Engine";
 }
 
 const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
