@@ -158,15 +158,6 @@ function noSearchDefaultPageRender() {
     }, 200); // Delay of 200ms
   });
 
-  searchInput.addEventListener("keydown", (event) => {
-    if (event.key === "Enter") {
-      updateCollapseState(false);
-    } else if (event.key === "Escape") {
-      updateCollapseState(true);
-      searchInput.blur(); // Remove focus from the input
-    }
-  });
-
   mainSearchInput.addEventListener("keydown", (event) => {
     if (event.key === "Enter") {
       const searchTerm = mainSearchInput.value.trim();
