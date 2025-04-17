@@ -1,5 +1,6 @@
 name = "unduck"
 compatibility_date = "2025-04-17"
+main = "src/main.ts"
 
 [site]
 bucket = "./dist"
