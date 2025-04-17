@@ -1,21 +1,40 @@
 import { bangs } from "./bang";
 import "./global.css";
 
-const initialTheme = getTheme();
-setTheme(initialTheme);
+// Add a storage abstraction to handle environments without localStorage
+const storage = {
+  getItem(key: string): string | null {
+    if (typeof localStorage !== "undefined") {
+      return localStorage.getItem(key);
+    }
+    return null; // Fallback for non-browser environments
+  },
+  setItem(key: string, value: string): void {
+    if (typeof localStorage !== "undefined") {
+      localStorage.setItem(key, value);
+    }
+  },
+};
+
+const initialTheme = typeof document !== "undefined" ? getTheme() : "light";
+if (typeof document !== "undefined") {
+  setTheme(initialTheme);
+}
 
 function setTheme(theme: 'light' | 'dark') {
-  document.documentElement.setAttribute('data-theme', theme);
-  localStorage.setItem('theme', theme);
+  if (typeof document !== "undefined") {
+    document.documentElement.setAttribute('data-theme', theme);
+  }
+  storage.setItem('theme', theme);
 }
 
 function getTheme(): 'light' | 'dark' {
-  const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
+  const savedTheme = storage.getItem('theme') as 'light' | 'dark' | null;
   if (savedTheme) {
     return savedTheme;
   }
   
-  if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+  if (typeof window !== "undefined" && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
     return 'dark';
   }
   return 'light';
@@ -29,6 +48,8 @@ function toggleTheme() {
 }
 
 function updateThemeToggleIcon(theme: 'light' | 'dark') {
+  if (typeof document === "undefined") return;
+
   const themeToggle = document.querySelector<HTMLButtonElement>('.theme-toggle');
   if (!themeToggle) return;
   
@@ -39,12 +60,14 @@ function updateThemeToggleIcon(theme: 'light' | 'dark') {
 }
 
 function noSearchDefaultPageRender() {
+  if (typeof document === "undefined") return;
+
   const initialTheme = getTheme();
   setTheme(initialTheme);
 
   const app = document.querySelector<HTMLDivElement>("#app")!;
 
-  const currentDefault = localStorage.getItem("default-bang") ?? "g";
+  const currentDefault = storage.getItem("default-bang") ?? "g";
   const currentDefaultEngine = bangs.find(b => b.t === currentDefault)?.s ?? "Google";
   
   app.innerHTML = /*html*/ `
@@ -146,7 +169,7 @@ function noSearchDefaultPageRender() {
         const listItem = document.createElement("li");
         listItem.innerHTML = /*html*/ `${engine.s} <span class="bang-text">!${engine.t}</span>`;
         listItem.addEventListener("click", () => {
-          localStorage.setItem("default-bang", engine.t);
+          storage.setItem("default-bang", engine.t);
           showSavedMessage(engine.t);
           // Update current engine display
           const currentEngineDisplay = app.querySelector<HTMLDivElement>("#current-engine")!;
@@ -202,10 +225,12 @@ function noSearchDefaultPageRender() {
   toggleButton.textContent = "Change Default Search Engine";
 }
 
-const LS_DEFAULT_BANG = localStorage.getItem("default-bang") ?? "g";
+const LS_DEFAULT_BANG = storage.getItem("default-bang") ?? "g";
 const defaultBang = bangs.find((b) => b.t === LS_DEFAULT_BANG);
 
 function getBangredirectUrl() {
+  if (typeof window === "undefined") return null;
+
   const url = new URL(window.location.href);
   const query = url.searchParams.get("q")?.trim() ?? "";
   if (!query) {
@@ -245,7 +270,12 @@ function getBangredirectUrl() {
 function doRedirect() {
   const searchUrl = getBangredirectUrl();
   if (!searchUrl) return;
-  window.location.replace(searchUrl);
+
+  if (typeof window !== "undefined") {
+    window.location.replace(searchUrl);
+  }
 }
 
-doRedirect();
+if (typeof window !== "undefined") {
+  doRedirect();
+}
