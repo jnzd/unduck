@@ -1,5 +1,4 @@
 {
-  "cleanUrls": true,
   "headers": [
     {
       "source": "/opensearch.xml",
@@ -7,10 +6,6 @@
         {
           "key": "Content-Type",
           "value": "application/opensearchdescription+xml"
-        },
-        {
-          "key": "Content-Disposition",
-          "value": "inline"
         }
       ]
     }
