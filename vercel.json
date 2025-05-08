@@ -6,6 +6,10 @@
         {
           "key": "Content-Type",
           "value": "application/opensearchdescription+xml"
+        },
+        {
+          "key": "Content-Disposition",
+          "value": "inline"
         }
       ]
     }
