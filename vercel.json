@@ -1,7 +1,7 @@
 {
   "headers": [
     {
-      "source": "/api/opensearch",
+      "source": "/opensearch.xml",
       "headers": [
         {
           "key": "Content-Type",
